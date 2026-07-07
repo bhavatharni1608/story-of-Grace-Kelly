@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Grace Kelly — Socrates Siamang | GNA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#fdf6e3;
+    --bg-panel:#ffffff;
+    --bg-panel-2:#fffaf0;
+    --forest-line:#e5d9a8;
+    --gold:#f2a30f;
+    --gold-bright:#ffc94d;
+    --gold-dim:#c9840f;
+    --leaf:#4c8c3f;
+    --leaf-dark:#2f5c27;
+    --blood:#e2703f;
+    --mist:#3c4a30;
+    --text-main:#3a2f1f;
+    --text-muted:#8a7d5f;
+    --shadow-deep: 0 20px 50px rgba(90,70,20,.18);
+    --serif: 'Baloo 2', sans-serif;
+    --body: 'Nunito', sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    background:var(--bg-void);
+    color:var(--text-main);
+    font-family:var(--body);
+    height:100%;
+    overflow-x:hidden;
+  }
+
+  #bg-music-toggle{
+  position:fixed; top:14px; right:14px; z-index:50;
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,.75); border:1px solid rgba(242,163,15,.5);
+  color:#c9840f; font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(4px);
+  transition:all .2s ease;
+  box-shadow:0 4px 14px rgba(90,70,20,.12);
+}
+#bg-music-toggle:hover{ border-color:var(--gold); }
+
+  body{
+    min-height:100vh;
+    position:relative;
+  }
+
+  /* ambient sunny jungle glow, shared across screens */
+  .fog{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 85%, rgba(76,140,63,.10), transparent 60%),
+      radial-gradient(ellipse 55% 40% at 85% 10%, rgba(255,201,77,.14), transparent 60%);
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{ transform: translate(0,0) scale(1); }
+    100%{ transform: translate(-2%, -3%) scale(1.05); }
+  }
+
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.035; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- playful banana & apple wallpaper ---- */
+  .doodles{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280"><g font-size="34" opacity="0.22"><text x="20" y="55" transform="rotate(-8 20 55)">🍌</text><text x="150" y="35" transform="rotate(10 150 35)">🍎</text><text x="210" y="110" transform="rotate(-6 210 110)">🍌</text><text x="60" y="150" transform="rotate(7 60 150)">🍎</text><text x="170" y="195" transform="rotate(-10 170 195)">🍌</text><text x="30" y="230" transform="rotate(5 30 230)">🍎</text><text x="230" y="250" transform="rotate(-8 230 250)">🍌</text></g></svg>');
+    background-repeat:repeat;
+    background-size:280px 280px;
+  }
+
+  .screen{
+    position:relative; z-index:2;
+    min-height:100vh;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px 48px;
+    text-align:center;
+  }
+  .screen.active{ display:flex; }
+  .screen.fade-in{ animation: fadeIn .9s ease both; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---- signature element: Grace swinging ---- */
+  .monkey-hero{ font-size:64px; display:inline-block; animation: swing 2.6s ease-in-out infinite; filter:drop-shadow(0 8px 14px rgba(90,70,20,.25)); }
+  .monkey-hero.small{ font-size:34px; }
+  .monkey-hero.photo-hero{ width:220px; height:220px; }
+  .monkey-hero.photo-hero img{
+    width:100%; height:100%; border-radius:50%; object-fit:cover;
+    border:4px solid var(--gold-bright); display:block; background:var(--bg-panel-2);
+  }
+  @keyframes swing{
+    0%, 100%{ transform: rotate(-8deg) translateY(0); }
+    50%{ transform: rotate(8deg) translateY(-6px); }
+  }
+
+  /* =============== SCREEN 1 : TITLE =============== */
+  #screen-title .monkey-hero{ margin-bottom:18px; }
+  .eyebrow{
+    font-family:var(--mono); letter-spacing:.3em; text-transform:uppercase;
+    color:var(--gold-dim); font-size:11px; margin-bottom:14px;
+  }
+  .title-word{
+    font-family:var(--serif); font-weight:800;
+    font-size:clamp(48px, 14vw, 100px);
+    letter-spacing:.02em;
+    line-height:.95;
+    background:linear-gradient(180deg, var(--leaf), var(--leaf-dark));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{
+    font-family:var(--serif); font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+    font-size:clamp(13px,3.4vw,17px); color:var(--gold-dim); margin-top:10px;
+  }
+  .tagline{
+    max-width:480px; margin:26px auto 8px; color:var(--text-muted);
+    font-size:15px; line-height:1.7; font-style:italic;
+  }
+  .btn{
+    font-family:var(--serif); font-weight:700; font-size:15px; letter-spacing:.02em;
+    color:#3b2413; background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+    border:none; padding:16px 34px; border-radius:30px; cursor:pointer;
+    box-shadow:0 10px 26px rgba(242,163,15,.35);
+    transition:transform .2s ease, box-shadow .2s ease;
+    text-transform:uppercase; letter-spacing:.05em;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 14px 32px rgba(242,163,15,.45); }
+  .btn:active{ transform:translateY(0); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn-ghost{
+    background:transparent; color:var(--leaf-dark); border:2px solid var(--leaf);
+    box-shadow:none; margin-top:14px; font-size:12px; padding:10px 22px;
+  }
+  .btn-ghost:hover{ border-color:var(--leaf-dark); box-shadow:0 0 16px rgba(76,140,63,.15); }
+
+  .cta-wrap{ margin-top:34px; }
+
+  /* =============== SCREEN 2 : STORY =============== */
+  .panel{
+    width:100%; max-width:520px;
+    background:linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+    border:1px solid var(--forest-line);
+    border-radius:18px; padding:26px 22px 30px;
+    box-shadow:var(--shadow-deep);
+  }
+  .kicker{
+    font-family:var(--serif); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    font-size:13px; color:var(--gold-dim); margin-bottom:4px;
+  }
+  .panel-title{
+    font-family:var(--serif); font-size:26px; font-weight:700; color:var(--leaf-dark); margin-bottom:18px;
+  }
+
+  .photo-frame{
+    position:relative; width:100%; aspect-ratio:4/3; border-radius:14px; overflow:hidden;
+    background:#f4ecd6; border:1px solid var(--forest-line);
+    box-shadow: inset 0 0 30px rgba(90,70,20,.08);
+  }
+  .photo-frame img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0; transition:opacity 1.1s ease;
+    filter:saturate(1.05) contrast(1.02) brightness(1.02);
+  }
+  .photo-frame img.show{ opacity:1; }
+  .photo-frame .placeholder{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; opacity:0; transition:opacity 1.1s ease; color:var(--text-muted);
+  }
+  .photo-frame .placeholder.show{ opacity:1; }
+  .photo-frame .placeholder span{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+  .frame-corner{ position:absolute; width:16px; height:16px; border:2px solid var(--gold-dim); z-index:3; opacity:.7; }
+  .frame-corner.tl{ top:8px; left:8px; border-right:none; border-bottom:none; border-radius:6px 0 0 0; }
+  .frame-corner.tr{ top:8px; right:8px; border-left:none; border-bottom:none; border-radius:0 6px 0 0; }
+  .frame-corner.bl{ bottom:8px; left:8px; border-right:none; border-top:none; border-radius:0 0 0 6px; }
+  .frame-corner.br{ bottom:8px; right:8px; border-left:none; border-top:none; border-radius:0 0 6px 0; }
+
+  .audio-ui{ margin-top:20px; }
+  .audio-controls{ display:flex; align-items:center; gap:12px; }
+  .play-btn{
+    flex:0 0 auto; width:46px; height:46px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--gold-bright), var(--gold));
+    border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 16px rgba(242,163,15,.35);
+  }
+  .play-btn svg{ width:16px; height:16px; }
+  .scrub-wrap{ flex:1; display:flex; flex-direction:column; gap:5px; }
+
+  input[type=range]{
+    -webkit-appearance:none; width:100%; height:4px; border-radius:2px;
+    background:var(--forest-line); outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:13px; height:13px; border-radius:50%;
+    background:var(--gold-bright); cursor:pointer; box-shadow:0 0 8px rgba(242,163,15,.6);
+    margin-top:-4.5px;
+  }
+  input[type=range]::-webkit-slider-runnable-track{ height:4px; border-radius:2px; background:var(--forest-line); }
+  input[type=range]::-moz-range-thumb{
+    width:13px; height:13px; border-radius:50%; background:var(--gold-bright); border:none; cursor:pointer;
+  }
+  .time-row{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:10px; color:var(--text-muted); }
+  .vol-row{ display:flex; align-items:center; gap:8px; margin-top:14px; }
+  .vol-row svg{ width:14px; height:14px; flex:0 0 auto; color:var(--text-muted); }
+  .vol-row input[type=range]{ width:90px; }
+
+  #vol{ --vol-color:#e2703f; background:var(--forest-line); }
+  #vol::-webkit-slider-runnable-track{ background:var(--forest-line); }
+  #vol::-webkit-slider-thumb{ background:var(--vol-color); box-shadow:0 0 8px var(--vol-color); }
+  #vol::-moz-range-thumb{ background:var(--vol-color); }
+  #vol::-moz-range-progress{ background:var(--vol-color); }
+  .replay-hint{ font-size:11.5px; color:var(--text-muted); margin-top:14px; line-height:1.6; }
+
+  .story-continue{ margin-top:24px; }
+  .continue-note{ font-size:11px; color:var(--text-muted); margin-top:10px; letter-spacing:.02em; }
+
+  /* =============== SCREEN 3 : HANGMAN =============== */
+  .game-clue{
+    font-family:var(--serif); font-size:17px; line-height:1.55; color:var(--text-main);
+    margin:14px 0 22px; max-width:440px;
+  }
+  .gallows-wrap{ display:flex; justify-content:center; margin-bottom:8px; }
+  .gallows-wrap svg{ width:150px; height:170px; overflow:visible; }
+  .gallows-fixed{ stroke:var(--gold-dim); stroke-width:5; stroke-linecap:round; fill:none; }
+  .figure-part{ opacity:0; transform:scale(.6); transform-origin:105px 60px; transition:opacity .3s ease, transform .3s ease; }
+  .figure-part.show{ opacity:1; transform:scale(1); }
+  .figure-part.face-emoji{ font-size:40px; text-anchor:middle; dominant-baseline:middle; }
+  .figure-part.limb{ stroke:var(--leaf-dark); stroke-width:6; stroke-linecap:round; fill:none; }
+  .watchers-caption{ font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); margin:0 0 18px; }
+
+  .word-blanks{
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:26px;
+  }
+  .letter-slot{
+    width:30px; height:38px; border-bottom:3px solid var(--gold-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-size:22px; font-weight:700; color:var(--leaf-dark);
+  }
+
+  .keyboard{
+    display:grid; grid-template-columns:repeat(7, 1fr); gap:7px; max-width:420px; margin:0 auto;
+  }
+  .key{
+    font-family:var(--mono); font-weight:700; font-size:13px;
+    background:var(--bg-panel-2); border:1px solid var(--forest-line); color:var(--text-main);
+    padding:10px 0; border-radius:8px; cursor:pointer; transition:all .15s ease;
+  }
+  .key:hover:not(:disabled){ border-color:var(--gold); color:var(--gold-dim); }
+  .key:disabled{ opacity:.3; cursor:default; }
+  .key.correct{ background:rgba(76,140,63,.18); border-color:var(--leaf); color:var(--leaf-dark); }
+  .key.wrong{ background:rgba(226,112,63,.18); border-color:var(--blood); color:#a7502a; }
+
+  .game-status{ margin-top:22px; min-height:20px; font-family:var(--mono); font-size:12px; letter-spacing:.05em; color:var(--text-muted); }
+  .game-status.win{ color:var(--leaf-dark); }
+  .game-status.lose{ color:#a7502a; }
+
+  /* =============== SCREEN 4 : BADGE =============== */
+  .badge-title{
+    font-family:var(--serif); font-weight:800; font-size:clamp(26px,7vw,36px);
+    color:var(--leaf-dark); margin-bottom:8px; line-height:1.15;
+  }
+  .badge-sub{ max-width:400px; margin:0 auto; color:var(--text-muted); font-size:14px; line-height:1.7; }
+  .badge-word{ font-family:var(--mono); color:var(--gold-dim); letter-spacing:.05em; }
+
+  footer.tag{
+    position:fixed; bottom:10px; left:0; right:0; text-align:center; z-index:2;
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#b8a878;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .fog, .monkey-hero{ animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<audio id="bg-music" src="forest2.mp3" loop preload="auto"></audio>
+<button id="bg-music-toggle" aria-label="Toggle background music">🔊</button>
+
+<div class="doodles"></div>
+<div class="fog"></div>
+<div class="grain"></div>
+
+<!-- ================= SCREEN 1: TITLE ================= -->
+<section id="screen-title" class="screen active">
+  <div class="monkey-hero photo-hero">
+    <img src="grace3.jpg" alt="Grace Kelly the siamang" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+    <span style="display:none; font-size:64px;">🐒</span>
+  </div>
+  <div class="eyebrow">Genting Nature Adventure</div>
+  <h1 class="title-word">GRACE KELLY</h1>
+  <p class="subtitle">Socrates Siamang</p>
+  <p class="tagline">Meet Grace Kelly a young siamang with a story that touched many hearts. Want to swing through her story?</p>
+  <div class="cta-wrap">
+    <button class="btn" id="btn-start">Meet Grace Kelly</button>
+  </div>
+</section>
+
+<!-- ================= SCREEN 2: STORY ================= -->
+<section id="screen-story" class="screen">
+  <div class="panel">
+    <div class="kicker">Grace Kelly's story...</div>
+
+    <div class="photo-frame" id="photo-frame">
+      <div class="frame-corner tl"></div><div class="frame-corner tr"></div>
+      <div class="frame-corner bl"></div><div class="frame-corner br"></div>
+
+      <img src="grace1.jpg">
+      <div class="placeholder" data-idx="0" data-fallback-for="0"></div>
+
+      <img src="grace2.jpg">
+      <div class="placeholder" data-idx="1" data-fallback-for="1"></div>
+
+      <img src="grace3.jpg">
+      <div class="placeholder" data-idx="2" data-fallback-for="2"></div>
+
+      <img src="grace4.jpg">
+      <div class="placeholder" data-idx="3" data-fallback-for="3"></div>
+
+      <img src="grace5.jpg">
+      <div class="placeholder" data-idx="4" data-fallback-for="4"></div>
+
+      <img src="grace6.jpg">
+      <div class="placeholder" data-idx="5" data-fallback-for="5"></div>
+    </div>
+
+    <div class="audio-ui">
+      <audio id="story-audio" src="Grace_Kelly_Final.mp3"></audio>
+      <div class="audio-controls">
+        <button class="play-btn" id="play-btn" aria-label="Play story audio">
+          <svg id="play-icon" viewBox="0 0 24 24" fill="#3b2413"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" viewBox="0 0 24 24" fill="#3b2413" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <div class="scrub-wrap">
+          <input type="range" id="scrub" value="0" min="0" max="100" step="0.1">
+          <div class="time-row"><span id="time-cur">0:00</span><span id="time-dur">0:00</span></div>
+        </div>
+      </div>
+      <div class="vol-row">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+        <input type="range" id="vol" min="0" max="1" step="0.01" value="1">
+      </div>
+      <p class="replay-hint">Missed a word? Drag the slider back and listen again to Grace's story.</p>
+    </div>
+
+    <div class="story-continue">
+      <button class="btn" id="btn-to-game" disabled>Swing Into the Game</button>
+      <p class="continue-note" id="continue-note">Finish listening to unlock the game</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCREEN 3: HANGMAN ================= -->
+<section id="screen-game" class="screen">
+  <div class="panel">
+    <div class="kicker">One Story, One Word</div>
+    <div class="panel-title">What Do You Remember?</div>
+
+    <p class="game-clue" id="game-clue">Loading a question from Grace's story…</p>
+
+    <div class="gallows-wrap">
+      <svg viewBox="0 0 160 200">
+        <path class="gallows-fixed" d="M10 190 L110 190 M30 190 L30 20 L105 20"/>
+        <line class="gallows-fixed" x1="105" y1="20" x2="105" y2="35"/>
+        <text id="fig-0" class="figure-part face-emoji" x="105" y="58">🐵</text>
+        <line id="fig-1" class="figure-part limb" x1="105" y1="76" x2="105" y2="120"/>
+        <line id="fig-2" class="figure-part limb" x1="105" y1="88" x2="83" y2="108"/>
+        <line id="fig-3" class="figure-part limb" x1="105" y1="88" x2="127" y2="108"/>
+        <line id="fig-4" class="figure-part limb" x1="105" y1="120" x2="88" y2="152"/>
+        <line id="fig-5" class="figure-part limb" x1="105" y1="120" x2="122" y2="152"/>
+      </svg>
+    </div>
+
+    <p class="watchers-caption">each wrong guess brings a little more of Grace into view</p>
+
+    <div class="word-blanks" id="word-blanks"></div>
+
+    <div class="keyboard" id="keyboard"></div>
+
+    <p class="game-status" id="game-status"></p>
+  </div>
+</section>
+
+<!-- ================= SCREEN 4: DONE ================= -->
+<section id="screen-badge" class="screen">
+  <div class="monkey-hero small">🎉</div>
+  <h2 class="badge-title" style="margin-top:22px;">Well Done!</h2>
+  <p class="badge-sub">You've learned Grace Kelly's story, and why the kindest thing we can do for wildlife is give them their space.</p>
+  <div class="cta-wrap">
+    <button class="btn btn-ghost" id="btn-replay">Hear the Story Again</button>
+  </div>
+</section>
+
+<footer class="tag">Created by · Bhavatharni Gopi Krishnan</footer>
+
+<script>
+(function(){
+
+  /* ---------- navigation ---------- */
+  const screens = ['screen-title','screen-story','screen-game','screen-badge'];
+  function show(id){
+    screens.forEach(s=>{
+      const el = document.getElementById(s);
+      el.classList.remove('active','fade-in');
+    });
+    const target = document.getElementById(id);
+    target.classList.add('active');
+    requestAnimationFrame(()=> target.classList.add('fade-in'));
+  }
+
+  document.getElementById('btn-start').addEventListener('click', ()=>{
+    show('screen-story');
+  });
+
+  /* ---------- photo crossfade ---------- */
+  const imgs = Array.from(document.querySelectorAll('#photo-frame img'));
+  const placeholders = Array.from(document.querySelectorAll('#photo-frame .placeholder'));
+
+  let photoIdx = 0;
+
+  imgs.forEach(img=>{
+    img.addEventListener('error', ()=>{ img.dataset.broken = '1'; updatePhoto(); });
+    img.addEventListener('load', ()=>{ img.dataset.broken = '0'; updatePhoto(); });
+  });
+
+  const bgMusic = document.getElementById('bg-music');
+const bgToggle = document.getElementById('bg-music-toggle');
+bgMusic.volume = 0.35; // keep it subtle
+
+let musicStarted = false;
+let bgMusicUserEnabled = true; // tracks whether the user wants bg music on (independent of story narration ducking)
+
+function startBgMusic(){
+  if(musicStarted) return;
+  musicStarted = true;
+  bgMusic.play().catch(()=>{});
+}
+// browsers block autoplay with sound until the user clicks something —
+// this unlocks it on the very first tap anywhere on the page
+document.addEventListener('click', startBgMusic, { once:true });
+
+bgToggle.addEventListener('click', ()=>{
+  if(bgMusic.paused){ bgMusic.play(); bgToggle.textContent = '🔊'; bgMusicUserEnabled = true; }
+  else { bgMusic.pause(); bgToggle.textContent = '🔇'; bgMusicUserEnabled = false; }
+});
+
+// fully stop the background music while Grace's story narration plays,
+// and bring it back only once narration has completely stopped
+const storyAudio = document.getElementById('story-audio');
+if(storyAudio){
+  storyAudio.addEventListener('play', ()=> bgMusic.pause());
+  storyAudio.addEventListener('pause', ()=>{ if(bgMusicUserEnabled) bgMusic.play().catch(()=>{}); });
+  storyAudio.addEventListener('ended', ()=>{ if(bgMusicUserEnabled) bgMusic.play().catch(()=>{}); });
+}
+
+  function updatePhoto(){
+    imgs.forEach((img,i)=>{
+      const active = i === photoIdx && img.dataset.broken !== '1';
+      img.classList.toggle('show', active);
+    });
+    placeholders.forEach((p,i)=>{
+      const correspondingImg = imgs[i];
+      const showPh = i === photoIdx && (correspondingImg.dataset.broken === '1' || correspondingImg.dataset.broken === undefined);
+      p.classList.toggle('show', showPh);
+    });
+  }
+  updatePhoto();
+  setInterval(()=>{ photoIdx = (photoIdx+1) % imgs.length; updatePhoto(); }, 7000);
+
+  /* ---------- audio controls ---------- */
+  const audio = document.getElementById('story-audio');
+  const playBtn = document.getElementById('play-btn');
+  const playIcon = document.getElementById('play-icon');
+  const pauseIcon = document.getElementById('pause-icon');
+  const scrub = document.getElementById('scrub');
+  const timeCur = document.getElementById('time-cur');
+  const timeDur = document.getElementById('time-dur');
+  const vol = document.getElementById('vol');
+  const btnToGame = document.getElementById('btn-to-game');
+  const continueNote = document.getElementById('continue-note');
+
+  function fmt(t){
+    if(!isFinite(t)) return '0:00';
+    const m = Math.floor(t/60), s = Math.floor(t%60);
+    return m + ':' + (s<10?'0':'') + s;
+  }
+
+  audio.addEventListener('loadedmetadata', ()=>{
+    scrub.max = audio.duration || 100;
+    timeDur.textContent = fmt(audio.duration);
+  });
+  audio.addEventListener('timeupdate', ()=>{
+    scrub.value = audio.currentTime;
+    timeCur.textContent = fmt(audio.currentTime);
+  });
+  audio.addEventListener('play', ()=>{ playIcon.style.display='none'; pauseIcon.style.display='block'; });
+  audio.addEventListener('pause', ()=>{ playIcon.style.display='block'; pauseIcon.style.display='none'; });
+  audio.addEventListener('ended', ()=>{
+    btnToGame.disabled = false;
+    continueNote.textContent = 'You may replay anytime, or continue to the game';
+  });
+  audio.addEventListener('error', ()=>{
+    continueNote.textContent = 'Audio file not found yet — add Grace_Kelly_Final.mp3 alongside this file';
+  });
+
+  playBtn.addEventListener('click', ()=>{
+    if(audio.paused){ audio.play().catch(()=>{ continueNote.textContent = 'Add Grace_Kelly_Final.mp3 to hear the story'; }); }
+    else { audio.pause(); }
+  });
+  scrub.addEventListener('input', ()=>{ audio.currentTime = scrub.value; });
+
+  function updateVolColor(){
+    const t = parseFloat(vol.value); // 0 to 1
+    const r1=226,g1=112,b1=63, r2=76,g2=140,b2=63;
+    const r = Math.round(r1 + (r2-r1)*t);
+    const g = Math.round(g1 + (g2-g1)*t);
+    const b = Math.round(b1 + (b2-b1)*t);
+    vol.style.setProperty('--vol-color', `rgb(${r},${g},${b})`);
+    const pct = t*100;
+    vol.style.background = `linear-gradient(to right, rgb(${r},${g},${b}) ${pct}%, var(--forest-line) ${pct}%)`;
+  }
+  vol.addEventListener('input', updateVolColor);
+  updateVolColor();
+
+  vol.addEventListener('input', ()=>{ audio.volume = vol.value; });
+
+  document.getElementById('btn-to-game').addEventListener('click', ()=>{
+    audio.pause();
+    show('screen-game');
+    startHangman();
+  });
+
+  /* ---------- hangman ---------- */
+  const QUESTIONS = [
+    { word:'SIAMANG',      clue:'What species is Grace Kelly?' },
+    { word:'SOCRATES',     clue:'Which family group did Grace leave behind in 2023?' },
+    { word:'AWANA',        clue:'Resorts World ___ became Grace\'s new home.' },
+    { word:'MATE',         clue:'Grace wandered through Genting Highlands searching for a ___.' },
+    { word:'BANANAS',      clue:'What food did visitors and staff give Grace that changed her behaviour?' },
+    { word:'SEPTEMBER',    clue:'In which month of 2024 did Grace suddenly appear weak and exhausted?' },
+    { word:'PYOMETRA',     clue:'What life-threatening condition was Grace diagnosed with?' },
+    { word:'UTERINE',      clue:'Pyometra is a severe ___ infection.' },
+    { word:'VETERINARIANS',clue:'Who discovered the cause of Grace\'s illness during the rescue?' },
+    { word:'DISTANCE',     clue:'The greatest act of kindness is keeping a respectful ___.' }
+  ];
+
+  const MAX_WRONG = 6;
+  let current, guessed, wrong;
+
+  function pickQuestion(){
+    let lastIdx = localStorage.getItem('gracekelly_last_q');
+    let idx;
+    do { idx = Math.floor(Math.random() * QUESTIONS.length); }
+    while (QUESTIONS.length > 1 && String(idx) === lastIdx);
+    localStorage.setItem('gracekelly_last_q', idx);
+    return QUESTIONS[idx];
+  }
+
+  function resetFigure(){
+    const face = document.getElementById('fig-0');
+    if(face) face.textContent = '🐵';
+    for(let i=0;i<MAX_WRONG;i++){
+      const part = document.getElementById('fig-'+i);
+      if(part){ part.classList.remove('show'); part.style.opacity = ''; }
+    }
+  }
+
+  function buildBlanks(){
+    const wrap = document.getElementById('word-blanks');
+    wrap.innerHTML = '';
+    current.word.split('').forEach((ch,i)=>{
+      const slot = document.createElement('div');
+      slot.className = 'letter-slot';
+      slot.id = 'slot-'+i;
+      slot.textContent = '';
+      wrap.appendChild(slot);
+    });
+  }
+
+  function buildKeyboard(){
+    const wrap = document.getElementById('keyboard');
+    wrap.innerHTML = '';
+    'QWERTYUIOPASDFGHJKLZXCVBNM'.split('').forEach(letter=>{
+      const btn = document.createElement('button');
+      btn.className = 'key';
+      btn.textContent = letter;
+      btn.id = 'key-'+letter;
+      btn.addEventListener('click', ()=> guessLetter(letter));
+      wrap.appendChild(btn);
+    });
+  }
+
+  function guessLetter(letter){
+    if(guessed.has(letter)) return;
+    guessed.add(letter);
+    const key = document.getElementById('key-'+letter);
+    key.disabled = true;
+
+    if(current.word.includes(letter)){
+      key.classList.add('correct');
+      current.word.split('').forEach((ch,i)=>{
+        if(ch === letter) document.getElementById('slot-'+i).textContent = ch;
+      });
+      checkWin();
+    } else {
+      key.classList.add('wrong');
+      const part = document.getElementById('fig-'+wrong);
+      if(part) part.classList.add('show');
+      wrong++;
+      if(wrong >= MAX_WRONG) loseGame();
+    }
+  }
+
+  function checkWin(){
+    const allRevealed = current.word.split('').every(ch => guessed.has(ch));
+    if(allRevealed){
+      document.getElementById('game-status').textContent = "You remembered her story...";
+      document.getElementById('game-status').className = 'game-status win';
+      document.querySelectorAll('#keyboard .key').forEach(k=> k.disabled = true);
+      setTimeout(()=>{ show('screen-badge'); }, 1400);
+    }
+  }
+
+  function loseGame(){
+    const face = document.getElementById('fig-0');
+    if(face) face.textContent = '🙈';
+    // 🙈 already has its own paws covering its face — hide the drawn arms so it's not 4 hands
+    const armL = document.getElementById('fig-2');
+    const armR = document.getElementById('fig-3');
+    if(armL) armL.style.opacity = '0';
+    if(armR) armR.style.opacity = '0';
+    document.getElementById('game-status').innerHTML = 'Out of guesses... the answer was <strong style="color:var(--leaf-dark)">' + current.word + '</strong>';
+    document.getElementById('game-status').className = 'game-status lose';
+    document.querySelectorAll('#keyboard .key').forEach(k=> k.disabled = true);
+    const retryBtn = document.createElement('button');
+    retryBtn.className = 'btn btn-ghost';
+    retryBtn.textContent = 'Try Again';
+    retryBtn.style.marginTop = '16px';
+    retryBtn.addEventListener('click', startHangman, { once:true });
+    document.getElementById('game-status').after(retryBtn);
+  }
+
+  function startHangman(){
+    current = pickQuestion();
+    guessed = new Set();
+    wrong = 0;
+    document.getElementById('game-clue').textContent = current.clue;
+    document.getElementById('game-status').textContent = '';
+    document.getElementById('game-status').className = 'game-status';
+    const oldRetry = document.querySelector('#screen-game .btn-ghost');
+    if(oldRetry) oldRetry.remove();
+    resetFigure();
+    buildBlanks();
+    buildKeyboard();
+  }
+
+  // allow physical keyboard input too
+  document.addEventListener('keydown', (e)=>{
+    if(!document.getElementById('screen-game').classList.contains('active')) return;
+    const letter = e.key.toUpperCase();
+    if(letter.length === 1 && letter >= 'A' && letter <= 'Z') guessLetter(letter);
+  });
+
+  document.getElementById('btn-replay').addEventListener('click', ()=>{
+    show('screen-story');
+  });
+
+})();
+</script>
+</body>
+</html>
